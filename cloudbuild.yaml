@@ -1,0 +1,11 @@
+steps:
+  # Build and tag using commit sha
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '.', '-t', '${_REGION}-docker.pkg.dev/$PROJECT_ID/run-image/telemetry:latest', '-f', 'Dockerfile']
+    dir: 'app'
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_REGION}-docker.pkg.dev/$PROJECT_ID/run-image/telemetry:latest']  
+serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/cloudbuild-sa@$PROJECT_ID.iam.gserviceaccount.com'
+options:
+  logging: CLOUD_LOGGING_ONLY
